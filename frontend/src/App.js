@@ -1,7 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [axiosData, setAxiosData] = useState([]);
+  useEffect(() => {
+    const fetchAxiosData = async () => {
+      const response = await axios.get("http://localhost:8080/users");
+      setAxiosData(response);
+    };
+    fetchAxiosData();
+    return () => {};
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +28,7 @@ function App() {
         >
           Learn React
         </a>
+        <prev>{JSON.stringify(axiosData)}</prev>
       </header>
     </div>
   );
