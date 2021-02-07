@@ -1,5 +1,9 @@
 # Create two projects with name backend and frontend with yarn
 
+How to install mongo with docker
+docker system prune
+docker system prune -a
+
 create express application
 
 ```

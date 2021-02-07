@@ -12,12 +12,14 @@ var corsOptions = {
 };
 const app = express();
 app.use(cors(corsOptions));
+require("./config/mongoDb")();
 
 app.get("/users", (req, res) => {
   res.status(200).json({
     users: [
       { name: "Ramprit Sahani", email: "rampritsahani@gmail.com" },
       { name: "Anita Sahani", email: "anitasahani@gmail.com" },
+      { name: "Versha Sahani", email: "vershasahani@gmail.com" },
     ],
   });
 });
