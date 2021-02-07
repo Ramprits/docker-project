@@ -6,7 +6,12 @@ exports.register = async (req, res, _next) => {
   res.status(201).json({ success: true, user: new_user });
 };
 
-exports.users = async (_req, res, _next) => {
+exports.users = async (req, res, _next) => {
   const users = await User.find();
   res.status(200).json({ success: true, users });
+};
+
+exports.user = async (req, res, _next) => {
+  const user = await User.findById(req.params.id);
+  res.status(200).json({ success: true, user });
 };

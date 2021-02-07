@@ -1,6 +1,6 @@
 FROM node:10.23.2-alpine3.10
 
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 # Install app dependencies
 COPY package*.json ./
 RUN npm install
@@ -8,4 +8,4 @@ RUN npm install
 COPY . .
 #Expose port and start application
 EXPOSE 8080
-CMD [ "npm", "run","dev" ]
+CMD [ "npm", "start" ]

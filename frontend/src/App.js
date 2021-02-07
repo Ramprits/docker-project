@@ -20,7 +20,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        Welcome to react js with docker
         <p>Ramprit Sahani</p>
         {JSON.stringify(axiosData)}
       </header>
