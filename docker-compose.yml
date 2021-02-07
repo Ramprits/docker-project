@@ -9,11 +9,11 @@ services:
       - ./frontend/src:/usr/app/src
     ports:
       - "3000:3000"
+    tty: true
+    stdin_open: true
     environment:
       - REACT_APP_API_PORT=8080
       - REACT_APP_API_URL=api
-    tty: true
-    stdin_open: true
 
   api:
     build:
@@ -26,7 +26,7 @@ services:
     depends_on:
       - api_mongo
     environment:
-      - CORS_PORT=8080
+      - CORS_PORT=3000
       - CORS_URL=frontend
       - MONGO_PORT="27017"
       - MONGO_URL="api_mongo"
