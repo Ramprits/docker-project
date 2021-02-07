@@ -39,3 +39,39 @@ run cmd
 ```
 
 Build your application with this cmd
+
+docker-compose.yml
+
+```
+version: "3.7"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    command: yarn start
+    volumes:
+      - ./frontend/src:/usr/app/src
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+  api:
+    build:
+      content: ./backend
+    command: yarn start
+    volumes:
+      - ./backend/src:/usr/app/src
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+
+
+```
+
+```docker-compose build
+docker-compose up
+```
+
+[Best resource link](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)

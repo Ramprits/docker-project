@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    command: yarn start
+    volumes:
+      - ./frontend/src:/usr/app/src
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_PORT=8080
+      - REACT_APP_API_URL=api
+    tty: true
+    stdin_open: true
+
+  api:
+    build:
+      context: ./backend
+    command: yarn start
+    volumes:
+      - ./backend/src:/usr/app/src
+    ports:
+      - "8080:8080"
+    environment:
+      - CORS_PORT=8080
+      - CORS_URL=frontend

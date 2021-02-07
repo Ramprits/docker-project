@@ -6,8 +6,11 @@ import "./App.css";
 function App() {
   const [axiosData, setAxiosData] = useState([]);
   useEffect(() => {
+    const API_PORT = process.env.REACT_APP_API_PORT | 8080;
+    const API_URL = process.env.REACT_APP_API_URL | "localhost";
+
     const fetchAxiosData = async () => {
-      const response = await axios.get("http://localhost:8080/users");
+      const response = await axios.get(`http://${API_URL}:${API_PORT}/users`);
       setAxiosData(response);
     };
     fetchAxiosData();
@@ -17,18 +20,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Welcome to reactjs with docker
-        </a>
-        <prev>{JSON.stringify(axiosData)}</prev>
+        Welcome to react js with docker
+        {JSON.stringify(axiosData)}
       </header>
     </div>
   );

@@ -1,14 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+require("colors");
 
 // Constants
-const PORT = 8080;
-const HOST = "0.0.0.0";
 
 // App
+const CORS_URL = process.env.CORS_URL | "localhost";
+const CORS_PORT = process.env.CORS_PORT | "3000";
 var corsOptions = {
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: `http://${CORS_URL}:${CORS_PORT}`,
 };
 const app = express();
 app.use(cors(corsOptions));
@@ -22,5 +22,7 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Running on http://localhost:${PORT}`.bgBlue);
+});
