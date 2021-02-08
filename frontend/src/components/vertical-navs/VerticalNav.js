@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { Link as CustomLink } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import InputBase from "@material-ui/core/InputBase";
-
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -20,7 +20,12 @@ import AppsIcon from "@material-ui/icons/Apps";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 import MetaData from "../MetaData";
+import { useSelector } from "react-redux";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,12 +43,14 @@ const useStyles = makeStyles((theme) => ({
   },
   linkBrand: {
     flexGrow: 1,
+    pointer: "cursor",
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
   },
   linkBrandSmall: {
     display: "none",
+    pointer: "cursor",
     [theme.breakpoints.down("xs")]: {
       flexGrow: 1,
       display: "inline-block",
@@ -98,10 +105,19 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  loginIcon: {
+    color: "white",
+    marginLeft: theme.spacing(3),
+    borderColor: "white",
+    fontSize: "32.5px",
+  },
 }));
 
 export default function Navigation(props) {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const { currentUser } = useSelector((state) => state.user);
 
   const content = {
     brand: { image: "mui-assets/img/logo-pied-piper-white.png", width: 120 },
@@ -152,6 +168,16 @@ export default function Navigation(props) {
     setState({ ...state, open });
   };
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (e) => {
+    if (e.target.innerText === "Sign out") {
+    }
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <MetaData title={content.title} />
@@ -196,6 +222,43 @@ export default function Navigation(props) {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+          {!currentUser ? (
+            <Fragment>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle style={{ fontSize: "30px" }} />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  Hi {currentUser?.displayName}
+                </MenuItem>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Sign out</MenuItem>
+              </Menu>
+            </Fragment>
+          ) : (
+            <ExitToAppIcon className={classes.loginIcon} />
+          )}
         </Toolbar>
       </AppBar>
       <Drawer className={classes.drawer} variant="permanent">
