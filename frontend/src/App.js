@@ -1,38 +1,24 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-function App() {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const API_PORT = process.env.REACT_APP_API_PORT | 8080;
-    const API_URL = process.env.REACT_APP_API_URL | "localhost";
-    const fetchAxiosData = async () => {
-      const response = await axios.get(`http://${API_URL}:${API_PORT}/users`);
-      setUsers(response.data.users);
-    };
-    fetchAxiosData();
-    return () => {};
-  }, []);
+import HomePage from "./pages/homepage/home.js";
+import IndexPage from "./pages/Index.js";
+import ShopPage from "./pages/shoppage/shop.js";
+
+export default function App() {
   return (
-    <div className="container mt-5">
-      <div className="columns is-multiline">
-        {users &&
-          users.map((user) => (
-            <div className="column is-4" key={user._id}>
-              <div className="card">
-                <div className="card-content">
-                  <div className="content">
-                    <p>{user.name}</p>
-                    Phasellus nec iaculis mauris
-                    <p>{user.email}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <IndexPage />
+        </Route>
+        <Route exact path="/home">
+          <HomePage />
+        </Route>
+        <Route exact path="/shop">
+          <ShopPage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
-
-export default App;
