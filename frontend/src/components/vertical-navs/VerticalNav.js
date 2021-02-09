@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { Link as CustomLink } from "react-router-dom";
+import { Link as CustomLink, useHistory } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,20 +13,21 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import { useSelector, useDispatch } from "react-redux";
 import AppsIcon from "@material-ui/icons/Apps";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Avatar from "@material-ui/core/Avatar";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import MetaData from "../MetaData";
-import { useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
-
+import { userSignOut } from "../../redux/actions/user.actions";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -111,14 +112,51 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "white",
     fontSize: "32.5px",
   },
+  headerMenuButton: {
+    marginLeft: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+  headerMenuButtonCollapse: {
+    marginRight: theme.spacing(2),
+  },
+  headerIcon: {
+    fontSize: 33,
+    color: "rgba(255, 255, 255, 0.35)",
+  },
+  headerIconCollapse: {
+    color: "white",
+  },
 }));
+
+const notifications = [
+  { id: 0, color: "warning", message: "Check out this awesome ticket" },
+  {
+    id: 1,
+    color: "success",
+    type: "info",
+    message: "What is the best way to get ...",
+  },
+  {
+    id: 2,
+    color: "secondary",
+    type: "notification",
+    message: "This is just a simple notification",
+  },
+  {
+    id: 3,
+    color: "primary",
+    type: "e-commerce",
+    message: "12 new orders has arrived today",
+  },
+];
 
 export default function Navigation(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { currentUser } = useSelector((state) => state.user);
-
+  const history = useHistory();
   const content = {
     brand: { image: "mui-assets/img/logo-pied-piper-white.png", width: 120 },
     "brand-small": {
@@ -174,6 +212,7 @@ export default function Navigation(props) {
 
   const handleClose = (e) => {
     if (e.target.innerText === "Sign out") {
+      dispatch(userSignOut());
     }
     setAnchorEl(null);
   };
@@ -222,7 +261,20 @@ export default function Navigation(props) {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          {!currentUser ? (
+
+          <IconButton
+            color="inherit"
+            aria-haspopup="true"
+            aria-controls="mail-menu"
+            onClick={props.openNotificationsMenu}
+            className={classes.headerMenuButton}
+          >
+            <Badge badgeContent={notifications.length} color="secondary">
+              <ShoppingBasketIcon classes={{ root: classes.headerIcon }} />
+            </Badge>
+          </IconButton>
+
+          {currentUser ? (
             <Fragment>
               <IconButton
                 aria-label="account of current user"
@@ -231,7 +283,11 @@ export default function Navigation(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle style={{ fontSize: "30px" }} />
+                {currentUser.photoURL ? (
+                  <Avatar src={currentUser.photoURL} alt="Profile Photo" />
+                ) : (
+                  <AccountCircle style={{ fontSize: "33px" }} />
+                )}
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -257,7 +313,10 @@ export default function Navigation(props) {
               </Menu>
             </Fragment>
           ) : (
-            <ExitToAppIcon className={classes.loginIcon} />
+            <ExitToAppIcon
+              className={classes.loginIcon}
+              onClick={() => history.push("/login")}
+            />
           )}
         </Toolbar>
       </AppBar>

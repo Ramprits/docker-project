@@ -38,12 +38,7 @@ export default function MenuItem({
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions style={{ display: "flex", justifyContent: "center" }}>
-          <Button size="small" color="primary">
-            Add To Cart
-          </Button>
-        </CardActions>
-      </Card>{" "}
+      </Card>
     </Grid>
   );
 }

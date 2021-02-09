@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Toaster } from "react-hot-toast";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
@@ -16,6 +17,7 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <App />
+        <Toaster />
       </PersistGate>
     </Provider>
   </ThemeProvider>,

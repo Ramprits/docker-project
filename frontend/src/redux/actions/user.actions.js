@@ -1,8 +1,10 @@
 import history from "../../utils/history";
+import toast from "react-hot-toast";
 import {
   signInWithGoogle,
   auth,
   analytics,
+  createUserProfileDocument,
 } from "../../firebase/firebase-config";
 import {
   userLoginTypes,
@@ -47,6 +49,7 @@ export const loginWithEmailAndPassword = (payload) => async (dispatch) => {
     dispatch(userLoginSuccess(res.user));
     history.push("/");
   } catch (error) {
+    toast.error(error.message);
     dispatch(userLoginFailure(error.message));
   }
 };
@@ -97,12 +100,16 @@ export const userRegister = (payload) => async (dispatch) => {
       payload.password
     );
     const user = auth.currentUser;
-    if (user) {
-      user
+    if (res.user) {
+      await user
         .updateProfile({
           displayName: `${payload.firstName} ${payload.lastName}`,
         })
         .then(() => console.log("Update successful."));
+      await createUserProfileDocument(user, {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+      });
     }
     dispatch(userRegisterSuccess(user));
     history.push("/");

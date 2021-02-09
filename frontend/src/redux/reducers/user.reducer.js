@@ -8,6 +8,7 @@ import {
 const initialState = {
   currentUser: undefined,
   loading: false,
+  isAuthenticated: false,
   errorMessage: "",
 };
 
@@ -20,6 +21,7 @@ export const userLoginReducer = (state = initialState, { type, payload }) => {
       return Object.assign({}, state, {
         loading: true,
         errorMessage: "",
+        isAuthenticated: false,
       });
     case userLoginTypes.USER_LOGIN_SUCCESS:
     case userRegisterTypes.USER_REGISTER_SUCCESS:
@@ -27,6 +29,7 @@ export const userLoginReducer = (state = initialState, { type, payload }) => {
       return Object.assign({}, state, {
         loading: false,
         errorMessage: "",
+        isAuthenticated: true,
         currentUser: payload,
       });
 
@@ -37,6 +40,7 @@ export const userLoginReducer = (state = initialState, { type, payload }) => {
       return Object.assign({}, state, {
         loading: false,
         errorMessage: payload,
+        isAuthenticated: false,
         currentUser: undefined,
       });
 
@@ -44,6 +48,7 @@ export const userLoginReducer = (state = initialState, { type, payload }) => {
       return Object.assign({}, state, {
         loading: false,
         errorMessage: "",
+        isAuthenticated: false,
         currentUser: undefined,
       });
 
