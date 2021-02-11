@@ -72,13 +72,13 @@ const CheckoutView = React.memo(function CheckoutView(props) {
                     <ChevronLeftIcon
                       color={"primary"}
                       className={classes.pointer}
-                      onClick={() => dispatch(addToCartItem(item))}
+                      onClick={() => dispatch(removeCartItem(item))}
                     />
                     <div>{item.quantity}</div>
                     <ChevronRightIcon
                       color={"primary"}
                       className={classes.pointer}
-                      onClick={() => dispatch(removeCartItem(item))}
+                      onClick={() => dispatch(addToCartItem(item))}
                     />
                   </Box>
                 </Info>

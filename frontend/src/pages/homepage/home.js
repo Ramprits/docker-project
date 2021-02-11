@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import VerticalNav from "../../components/vertical-navs/VerticalNav";
+import { selectDirectory } from "../../redux/selectors/directory.selector";
 import Directory from "./components/directory";
 
 export default function HomePage() {
+  const directories = useSelector(selectDirectory);
   return (
     <React.Fragment>
       <VerticalNav
@@ -22,7 +25,7 @@ export default function HomePage() {
           link2: "Product",
           link4: "Contact",
         }}
-        bucketMain={[<Directory content={null} />]}
+        bucketMain={[<Directory content={{ directories, loading: false }} />]}
       />
     </React.Fragment>
   );

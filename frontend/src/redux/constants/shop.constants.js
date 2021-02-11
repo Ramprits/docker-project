@@ -1,0 +1,5 @@
+export const shopTypes = {
+  SHOP_START: "SHOP_START",
+  SHOP_SUCCESS: "SHOP_SUCCESS",
+  SHOP_FAILURE: "SHOP_FAILURE",
+};
