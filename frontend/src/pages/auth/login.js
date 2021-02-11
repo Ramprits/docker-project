@@ -14,6 +14,7 @@ import {
   loginWithGoogle,
 } from "../../redux/actions/user.actions";
 import MetaData from "../../components/MetaData";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   tertiaryAction: {
@@ -50,11 +51,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginForm(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm({
     reValidateMode: "onSubmit",
     defaultValues: {
-      email: "rampritsahani@gmail.com",
+      email: "sanjaysahani@gmail.com",
       password: "Ramprit@1234",
     },
   });
@@ -154,16 +156,13 @@ export default function LoginForm(props) {
             </Box>
             <Grid container spacing={2} className={classes.actions}>
               <Grid item xs={12} sm={6}>
-                <Link
-                  onClick={() => props.history.push("/register")}
-                  variant="body2"
-                >
+                <Link onClick={() => history.push("/register")} variant="body2">
                   {content["02_secondary-action"]}
                 </Link>
               </Grid>
               <Grid item xs={12} sm={6} className={classes.tertiaryAction}>
                 <Link
-                  onClick={() => props.history.push("/forgot-password")}
+                  onClick={() => history.push("/forgot-password")}
                   variant="body2"
                 >
                   {content["02_tertiary-action"]}

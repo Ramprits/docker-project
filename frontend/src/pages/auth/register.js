@@ -12,9 +12,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { useForm } from "react-hook-form";
 import { userRegister } from "../../redux/actions/user.actions";
 import MetaData from "../../components/MetaData";
+import { useHistory } from "react-router-dom";
 
 export default function RegisterForm(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { register, handleSubmit, errors, watch } = useForm({
     reValidateMode: "onChange",
     defaultValues: {
@@ -164,10 +166,7 @@ export default function RegisterForm(props) {
               </Button>
             </Box>
             <Box textAlign="right">
-              <Link
-                onClick={() => props.history.push("/login")}
-                variant="body2"
-              >
+              <Link onClick={() => history.push("/login")} variant="body2">
                 {content["01_secondary-action"]}
               </Link>
             </Box>

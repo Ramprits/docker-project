@@ -8,6 +8,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import { useDispatch } from "react-redux";
+import { addToCartItem } from "../../../../redux/actions/cart.actions";
 
 const useStyles = makeStyles({
   root: {
@@ -17,8 +19,13 @@ const useStyles = makeStyles({
     height: 300,
   },
 });
-export default function CollectionItem({ id, name, imageUrl, price }) {
+const CollectionItem = ({ item }) => {
+  const { name, imageUrl, price } = item;
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const handleAddToCart = () => {
+    dispatch(addToCartItem(item));
+  };
 
   return (
     <Grid item xs={12} lg={3} md={6}>
@@ -34,7 +41,7 @@ export default function CollectionItem({ id, name, imageUrl, price }) {
         <CardActions
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={handleAddToCart}>
             Add To Cart
           </Button>
           <Button size="small" color="primary">
@@ -44,4 +51,5 @@ export default function CollectionItem({ id, name, imageUrl, price }) {
       </Card>
     </Grid>
   );
-}
+};
+export default CollectionItem;

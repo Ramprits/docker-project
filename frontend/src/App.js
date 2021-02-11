@@ -5,25 +5,22 @@ import PrivateRoute from "./components/PrivateRoute";
 import { auth } from "./firebase/firebase-config";
 import LoginForm from "./pages/auth/login";
 import RegisterForm from "./pages/auth/register";
+import CheckoutPage from "./pages/checkout/check-out";
+import Contact from "./pages/contact";
 
 import HomePage from "./pages/homepage/home";
 import IndexPage from "./pages/Index";
 import ShopPage from "./pages/shoppage/shop";
-import { loadUserTypes } from "./redux/constants/user.constants";
 import history from "./utils/history";
 
 export default function App() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
-    const subscription = auth.onAuthStateChanged((user) =>
-      dispatch({
-        type: loadUserTypes.LOAD_USER_SUCCESS,
-        payload: user,
-      })
-    );
+    const subscription = auth.onAuthStateChanged((user) => console.log);
     return () => subscription;
-  }, []);
+  }, [dispatch]);
+
   return (
     <Router history={history}>
       <Switch>
@@ -39,6 +36,12 @@ export default function App() {
           exact
           path="/shop"
           component={ShopPage}
+        />
+        <PrivateRoute
+          isAuthenticated={isAuthenticated}
+          exact
+          path="/checkout"
+          component={CheckoutPage}
         />
         <Route
           exact
@@ -63,6 +66,7 @@ export default function App() {
             )
           }
         />
+        <Route exact path="/contact" component={Contact}></Route>
       </Switch>
     </Router>
   );

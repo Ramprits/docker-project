@@ -11,10 +11,12 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
+    "@mui-treasury/components": "^1.10.1",
     "clsx": "latest",
     "firebase": "^8.2.6",
     "react": "latest",
     "react-dom": "latest",
+    "react-google-font-loader": "^1.1.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^6.15.1",
     "react-hot-toast": "^1.0.2",
@@ -25,7 +27,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0"
   },
   "browserslist": {
     "production": [

@@ -15,9 +15,7 @@ const initialState = {
 export const userLoginReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case userLoginTypes.USER_LOGIN_START:
-    case userSignOutTypes.USER_SIGN_OUT_START:
     case userRegisterTypes.USER_REGISTER_START:
-    case loadUserTypes.LOAD_USER_START:
       return Object.assign({}, state, {
         loading: true,
         errorMessage: "",
@@ -25,7 +23,6 @@ export const userLoginReducer = (state = initialState, { type, payload }) => {
       });
     case userLoginTypes.USER_LOGIN_SUCCESS:
     case userRegisterTypes.USER_REGISTER_SUCCESS:
-    case loadUserTypes.LOAD_USER_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
         errorMessage: "",

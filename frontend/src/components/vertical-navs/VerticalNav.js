@@ -28,6 +28,8 @@ import Menu from "@material-ui/core/Menu";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import MetaData from "../MetaData";
 import { userSignOut } from "../../redux/actions/user.actions";
+import { selectCartItemsCount } from "../../redux/selectors/cart.selector";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -155,7 +157,9 @@ export default function Navigation(props) {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, isAuthenticated } = useSelector((state) => state.user);
+  const cartLength = useSelector(selectCartItemsCount);
+
   const history = useHistory();
   const content = {
     brand: { image: "mui-assets/img/logo-pied-piper-white.png", width: 120 },
@@ -261,20 +265,21 @@ export default function Navigation(props) {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+          {cartLength > 0 && (
+            <IconButton
+              color="inherit"
+              aria-haspopup="true"
+              aria-controls="mail-menu"
+              className={classes.headerMenuButton}
+              onClick={() => history.push("/checkout")}
+            >
+              <Badge badgeContent={cartLength} color="secondary">
+                <ShoppingBasketIcon classes={{ root: classes.headerIcon }} />
+              </Badge>
+            </IconButton>
+          )}
 
-          <IconButton
-            color="inherit"
-            aria-haspopup="true"
-            aria-controls="mail-menu"
-            onClick={props.openNotificationsMenu}
-            className={classes.headerMenuButton}
-          >
-            <Badge badgeContent={notifications.length} color="secondary">
-              <ShoppingBasketIcon classes={{ root: classes.headerIcon }} />
-            </Badge>
-          </IconButton>
-
-          {currentUser ? (
+          {isAuthenticated ? (
             <Fragment>
               <IconButton
                 aria-label="account of current user"
@@ -283,8 +288,8 @@ export default function Navigation(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                {currentUser.photoURL ? (
-                  <Avatar src={currentUser.photoURL} alt="Profile Photo" />
+                {currentUser?.photoURL ? (
+                  <Avatar src={currentUser?.photoURL} alt="Profile Photo" />
                 ) : (
                   <AccountCircle style={{ fontSize: "33px" }} />
                 )}
@@ -292,6 +297,7 @@ export default function Navigation(props) {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
+                style={{ top: "40px" }}
                 anchorOrigin={{
                   vertical: "top",
                   horizontal: "right",
